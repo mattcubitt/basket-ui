@@ -1,7 +1,8 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import Backet from "./Backet";
+import Basket from "./Basket";
 import userEvent from "@testing-library/user-event";
+import products from "./products";
 
 const addProduct = (productToAdd: string) => {
   userEvent.selectOptions(
@@ -14,22 +15,8 @@ const addProduct = (productToAdd: string) => {
   userEvent.click(addButton);
 };
 
-test("should show selected product in basket when clicking add", () => {
-  render(<Backet />);
-
-  const productToAdd = "Face Mask";
-
-  addProduct(productToAdd);
-
-  const listItems = screen.getAllByRole("listitem");
-
-  expect(listItems).toHaveLength(1);
-
-  expect(listItems[0]).toHaveTextContent(productToAdd);
-});
-
 test("should show multiple products in basket when clicking add", () => {
-  render(<Backet />);
+  render(<Basket />);
 
   const productsToAdd = [
     "Face Mask",
@@ -49,7 +36,9 @@ test("should show multiple products in basket when clicking add", () => {
 
   expect(listItems).toHaveLength(productsToAdd.length);
 
-  productsToAdd.forEach((productToAdd, index) =>
-    expect(listItems[index]).toHaveTextContent(productToAdd)
-  );
+  productsToAdd.forEach((productToAdd, index) => {
+    const productPrice = products.get(productToAdd)?.price;
+    expect(listItems[index]).toHaveTextContent(productToAdd);
+    expect(listItems[index]).toHaveTextContent(productPrice!.toFixed(2));
+  });
 });

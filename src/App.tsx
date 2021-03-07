@@ -1,13 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import Backet from "./Backet";
+import Basket from "./Basket";
 
 const Container = styled.div``;
 
 function App() {
   return (
     <Container>
-      <Backet />
+      <Basket />
     </Container>
   );
 }
