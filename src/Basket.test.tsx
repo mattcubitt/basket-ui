@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Basket from "./Basket";
 import userEvent from "@testing-library/user-event";
 import products from "./products";
@@ -41,4 +41,34 @@ test("should show multiple products in basket when clicking add", () => {
     expect(listItems[index]).toHaveTextContent(productToAdd);
     expect(listItems[index]).toHaveTextContent(productPrice!.toFixed(2));
   });
+});
+
+test("should calculate price per litre when adding hand sanitizer", async () => {
+  render(<Basket />);
+
+  const expectedProductToAdd = "Hand Sanitizer";
+  const expectedQuantity = 0.175;
+
+  userEvent.selectOptions(
+    screen.getByLabelText("Select a product:"),
+    expectedProductToAdd
+  );
+
+  const quantityInput = await screen.findByPlaceholderText("Select quantity");
+
+  fireEvent.change(quantityInput, { target: { value: expectedQuantity } });
+
+  const addButton = screen.getByText("Add");
+
+  userEvent.click(addButton);
+
+  const listItems = screen.getAllByRole("listitem");
+
+  expect(listItems).toHaveLength(1);
+
+  const productPrice = products.get(expectedProductToAdd)?.price;
+  expect(listItems[0]).toHaveTextContent(expectedProductToAdd);
+  expect(listItems[0]).toHaveTextContent(
+    (expectedQuantity * productPrice!).toFixed(2)
+  );
 });
