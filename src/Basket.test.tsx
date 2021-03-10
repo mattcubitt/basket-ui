@@ -72,3 +72,37 @@ test("should calculate price per litre when adding hand sanitizer", async () => 
     (expectedQuantity * productPrice!).toFixed(2)
   );
 });
+
+test("should show totals", () => {
+  render(<Basket />);
+
+  const productsToAdd = [
+    "Face Mask",
+    "Face Mask",
+    "Toilet Paper",
+    "Toilet Paper",
+    "Toilet Paper",
+    "Toilet Paper",
+    "Toilet Paper",
+    "Toilet Paper",
+    "Hand Sanitizer",
+  ];
+
+  productsToAdd.forEach(addProduct);
+
+  const listItems = screen.getAllByRole("listitem");
+
+  expect(listItems).toHaveLength(productsToAdd.length);
+
+  productsToAdd.forEach((productToAdd, index) => {
+    const productPrice = products.get(productToAdd)?.price;
+    expect(listItems[index]).toHaveTextContent(productToAdd);
+    expect(listItems[index]).toHaveTextContent(productPrice!.toFixed(2));
+  });
+
+  expect(screen.getByLabelText("Sub-total")).toHaveTextContent("28.89");
+
+  expect(screen.getByLabelText("Total savings")).toHaveTextContent("-1.65");
+
+  expect(screen.getByLabelText("Total to Pay")).toHaveTextContent("27.24");
+});

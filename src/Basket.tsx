@@ -1,10 +1,15 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { calculateDiscounts } from "./calculateDiscounts";
+import { calculateTotal } from "./calculateTotal";
+import { List, ListItem } from "./components/List";
 import products, { Product } from "./products";
 
 const Basket: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [addedProducts, addProductToBasket] = useState<Product[]>([]);
   const [quantity, setQuantity] = useState<number>(1);
+  const { discounts, totalSavings } = calculateDiscounts(addedProducts);
+  const { subTotal, total } = calculateTotal(addedProducts, totalSavings);
 
   return (
     <>
@@ -63,14 +68,33 @@ const Basket: React.FC = () => {
       </button>
       <div>
         <label htmlFor="basketList">Basket:</label>
-        <ul id="basketList">
+        <List id="basketList">
           {addedProducts.map((product, index) => (
-            <li key={index}>{`${product.name} ${(
+            <ListItem key={index}>{`${product.name} ${(
               quantity * product.price
-            ).toFixed(2)}`}</li>
+            ).toFixed(2)}`}</ListItem>
           ))}
-        </ul>
+        </List>
       </div>
+      <div>-----</div>
+      <label id="sub-total">Sub-total</label>
+      <div aria-labelledby="sub-total">{subTotal.toFixed(2)}</div>
+      <label id="savings">Savings</label>
+      <div aria-labelledby="savings">
+        {discounts.map((discount, index) => (
+          <div key={index}>
+            {discount.discription}
+            {discount.saving.toFixed(2)}
+          </div>
+        ))}
+      </div>
+
+      <div>-----</div>
+      <label id="total-savings">Total savings</label>
+      <div aria-labelledby="total-savings">{totalSavings.toFixed(2)}</div>
+      <div>---------------------------</div>
+      <label id="total-to-pay">Total to Pay</label>
+      <div aria-labelledby="total-to-pay">{total.toFixed(2)}</div>
     </>
   );
 };
