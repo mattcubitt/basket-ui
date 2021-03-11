@@ -4,6 +4,7 @@ export type Product = {
   unit: string;
   canAmendQuantity: boolean;
   quantity: number;
+  formatDetailLine?: (product: Product, quantity: number) => string;
 };
 
 const products = new Map<string, Product>();
@@ -27,6 +28,16 @@ products.set("Hand Sanitizer", {
   unit: "per litre",
   canAmendQuantity: true,
   quantity: 1,
+  formatDetailLine: (product, quantity) => {
+    const currencyFormatter = new Intl.NumberFormat("en-GB", {
+      style: "currency",
+      currency: "GBP",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
+    return `${quantity} l @ ${currencyFormatter.format(product.price)}/l`;
+  },
 });
 
 export default products;

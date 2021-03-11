@@ -5,5 +5,3 @@ export const List = styled.ul`
   padding: 0;
   list-style-type: none;
 `;
-
-export const ListItem = styled.li``;

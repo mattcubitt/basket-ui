@@ -71,9 +71,11 @@ test("should calculate price per litre when adding hand sanitizer", async () => 
   expect(listItems[0]).toHaveTextContent(
     (expectedQuantity * productPrice!).toFixed(2)
   );
+
+  expect(listItems[0]).toHaveTextContent(`${expectedQuantity} l @ £19.99/l`);
 });
 
-test("should show totals", () => {
+test("should show correct totals", () => {
   render(<Basket />);
 
   const productsToAdd = [
