@@ -1,8 +1,6 @@
 import React from "react";
-import styled from "styled-components";
-import Basket from "./Basket";
-
-const Container = styled.div``;
+import Basket from "./basket/Basket";
+import { Container } from "./components/Container";
 
 function App() {
   return (

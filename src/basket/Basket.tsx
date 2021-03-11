@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { calculateDiscounts } from "./calculateDiscounts";
-import { calculateTotal } from "./calculateTotal";
-import { List } from "./components/List";
-import { HighlightedSection } from "./components/HighlightedSection";
-import { Row } from "./components/Row";
-import products, { Product } from "./products";
+import { v4 as uuidv4 } from "uuid";
+import { HighlightedSection } from "../components/HighlightedSection";
+import { List } from "../components/List";
+import { Row } from "../components/Row";
+import { calculateDiscounts } from "../discounts/calculateDiscounts";
+import products, { Product } from "../products";
+import { calculateTotal } from "../totals/calculateTotal";
 import BasketItem from "./BasketItem";
 
 const Basket: React.FC = () => {
@@ -58,6 +59,7 @@ const Basket: React.FC = () => {
               ...addedProducts,
               {
                 ...selectedProduct,
+                id: uuidv4(),
                 quantity: selectedProduct.canAmendQuantity
                   ? quantity
                   : selectedProduct.quantity,
@@ -73,8 +75,8 @@ const Basket: React.FC = () => {
         <div>
           <label htmlFor="basketList">Basket:</label>
           <List id="basketList">
-            {addedProducts.map((product, index) => (
-              <BasketItem product={product} quantity={quantity} key={index} />
+            {addedProducts.map((product) => (
+              <BasketItem product={product} key={product.id} />
             ))}
           </List>
         </div>
@@ -87,8 +89,8 @@ const Basket: React.FC = () => {
 
         <label id="savings">Savings</label>
         <div aria-labelledby="savings">
-          {discounts.map((discount, index) => (
-            <Row key={index}>
+          {discounts.map((discount) => (
+            <Row key={discount.id}>
               <div>{discount.discription}</div>
               <div>{discount.saving.toFixed(2)}</div>
             </Row>

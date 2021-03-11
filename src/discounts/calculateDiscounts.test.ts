@@ -1,5 +1,7 @@
 import { calculateDiscounts } from "./calculateDiscounts";
-import { Product } from "./products";
+import { Product } from "../products";
+
+jest.mock("uuid");
 
 test("should return correct discounts for 2 face masks", () => {
   const products: Product[] = [

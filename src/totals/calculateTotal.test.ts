@@ -1,5 +1,5 @@
 import { calculateTotal } from "./calculateTotal";
-import { Product } from "./products";
+import { Product } from "../products";
 
 test("should calculate total as zero when no products", () => {
   const total = calculateTotal([], 0);

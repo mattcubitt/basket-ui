@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import Basket from "./Basket";
 import userEvent from "@testing-library/user-event";
-import products from "./products";
+import products from "../products";
 
 const addProduct = (productToAdd: string) => {
   userEvent.selectOptions(

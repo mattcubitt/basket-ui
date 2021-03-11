@@ -1,4 +1,4 @@
-import { Product } from "./products";
+import { Product } from "../products";
 
 export const calculateTotal = (products: Product[], totalSavings: number) => {
   const subTotal = products.reduce(
